@@ -30,7 +30,8 @@ mongoose.connect(config.DB, { useNewUrlParser: true }).then(
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
- app.use(serveStatic(__dirname + '/client/dist'));
+
+app.use(serveStatic(__dirname + '/dist'));
 
 
 app.use('/contact', contactRoute);
@@ -68,7 +69,8 @@ app.get("/", (req, res) => {
 //as long as running on heroku, set statisitc folder
 
 if(process.env.NODE_ENV == 'production'){
-  app.use(serveStatic(__dirname + '/client/dist'));
+  app.use(serveStatic(__dirname + '/dist'));
+  app.get(/.*/, (req, res)=> res.sendFile(__dirname + '/dist/index.html'));
 }
 
 // listen on the port
